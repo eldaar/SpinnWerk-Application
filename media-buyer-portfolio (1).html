@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From Tuzla to Vienna - Your Next Digital Swiss Army Knife | Spinnwerk</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --spinnwerk-red: #E30613;
+            --bosnia-blue: #001489;
+            --bosnia-yellow: #FFCD00;
+            --vienna-gold: #FFD700;
+            --salt-white: #FAFAFA;
+            --dark: #1a1a1a;
+            --warm-gray: #F5F5F0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--warm-gray);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* Animated map background */
+        .map-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M20 20 L80 20 L80 80 L20 80 Z' fill='none' stroke='%23000' stroke-width='0.5' stroke-dasharray='5,5'/%3E%3C/svg%3E");
+            z-index: 0;
+        }
+
+        /* Distance counter */
+        .distance-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+            z-index: 100;
+            border: 2px solid var(--spinnwerk-red);
+        }
+
+        .distance-counter span {
+            color: var(--spinnwerk-red);
+            font-size: 1.2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, var(--warm-gray) 0%, white 50%, var(--warm-gray) 100%);
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-text {
+            animation: slideInLeft 1s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .location-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+        }
+
+        .location-badge .pin {
+            color: var(--spinnwerk-red);
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            line-height: 1.2;
+            margin-bottom: 25px;
+            color: var(--dark);
+        }
+
+        .spinnwerk {
+            color: var(--spinnwerk-red);
+            font-weight: bold;
+            position: relative;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, var(--bosnia-yellow) 0%, var(--bosnia-yellow) 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 60%;
+            padding: 0 5px;
+            animation: highlightSlide 2s ease-out;
+        }
+
+        @keyframes highlightSlide {
+            from {
+                background-size: 0% 40%;
+            }
+            to {
+                background-size: 100% 40%;
+            }
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--spinnwerk-red);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* VSL Section in Hero */
+        .vsl-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            position: relative;
+            animation: slideInRight 1s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .vsl-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--spinnwerk-red);
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        .live-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--spinnwerk-red);
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .video-placeholder {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, var(--bosnia-blue) 0%, #0066CC 100%);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 100%);
+        }
+
+        .play-button {
+            width: 90px;
+            height: 90px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-left: 30px solid var(--spinnwerk-red);
+            border-top: 18px solid transparent;
+            border-bottom: 18px solid transparent;
+            margin-left: 8px;
+        }
+
+        .video-title {
+            color: white;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-top: 20px;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .video-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            margin-top: 10px;
+            z-index: 2;
+        }
+
+        /* Journey Section */
+        .journey-section {
+            padding: 100px 20px;
+            background: white;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 60px;
+        }
+
+        .timeline {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--bosnia-blue) 0%, var(--spinnwerk-red) 100%);
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            width: 45%;
+            padding: 30px;
+            background: var(--warm-gray);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            background: white;
+            border: 4px solid var(--spinnwerk-red);
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            color: var(--spinnwerk-red);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .timeline-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .timeline-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .timeline-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* Skills Swiss Army Knife */
+        .skills-section {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, var(--warm-gray) 0%, white 100%);
+            position: relative;
+            z-index: 10;
+        }
+
+        .knife-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .knife-badge {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--spinnwerk-red);
+            color: white;
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .skill-blade {
+            text-align: center;
+            padding: 25px;
+            background: var(--warm-gray);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .skill-blade:hover {
+            transform: translateY(-10px) rotate(5deg);
+            border-color: var(--spinnwerk-red);
+            background: white;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .skill-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .skill-name {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .skill-desc {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        /* Vienna Love Letter */
+        .love-letter {
+            padding: 100px 20px;
+            background: white;
+            position: relative;
+            z-index: 10;
+        }
+
+        .letter-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #FFF9E6 0%, white 100%);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transform: rotate(-1deg);
+        }
+
+        .letter-container:hover {
+            transform: rotate(0deg);
+        }
+
+        .letter-stamp {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid var(--spinnwerk-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(15deg);
+            font-weight: bold;
+            color: var(--spinnwerk-red);
+        }
+
+        .letter-content {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #444;
+            font-family: 'Georgia', serif;
+        }
+
+        .letter-signature {
+            margin-top: 30px;
+            text-align: right;
+            font-style: italic;
+            color: #666;
+        }
+
+        /* Why Section */
+        .why-section {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, var(--bosnia-blue) 0%, #0066CC 100%);
+            color: white;
+            position: relative;
+            z-index: 10;
+        }
+
+        .cards-grid {
+            max-width: 1200px;
+            margin: 60px auto 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .why-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .why-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .why-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .why-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--bosnia-yellow);
+        }
+
+        .why-text {
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Visa Note */
+        .visa-note {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 60px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+        }
+
+        .visa-note h3 {
+            color: var(--bosnia-yellow);
+            margin-bottom: 15px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 20px;
+            background: var(--warm-gray);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .cta-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .cta-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            color: #666;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: var(--spinnwerk-red);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(227, 6, 19, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--spinnwerk-red);
+            border: 2px solid var(--spinnwerk-red);
+        }
+
+        .btn-secondary:hover {
+            background: var(--spinnwerk-red);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            color: #666;
+        }
+
+        .contact-info a {
+            color: var(--spinnwerk-red);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Fun Easter Egg */
+        .salt-crystal {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            font-size: 2.5rem;
+            cursor: pointer;
+            z-index: 100;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                margin-left: 60px;
+            }
+
+            .timeline-content {
+                width: 100%;
+            }
+
+            .timeline-dot {
+                left: 30px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Loading screen */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .route-animation {
+            width: 200px;
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .route-animation::before {
+            content: '';
+            position: absolute;
+            left: -50%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--bosnia-blue) 0%, var(--spinnwerk-red) 100%);
+            animation: travel 1.5s ease-in-out infinite;
+        }
+
+        @keyframes travel {
+            0% { left: -50%; }
+            100% { left: 100%; }
+        }
+
+        .loader-text {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="route-animation"></div>
+        <div class="loader-text">Traveling from Tuzla to Vienna...</div>
+    </div>
+
+    <!-- Map Background -->
+    <div class="map-bg"></div>
+
+    <!-- Distance Counter -->
+    <div class="distance-counter">
+        📍 Tuzla → Vienna: <span>648 km</span>
+    </div>
+
+    <!-- Hero Section with VSL -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-text">
+                <div class="location-badge">
+                    <span class="pin">📍</span>
+                    <span>Currently in Tuzla, Heart in Vienna</span>
+                </div>
+
+                <h1>
+                    Dear <span class="spinnwerk">SPiNNWERK</span>,<br>
+                    I'm your next <span class="highlight">SPiNNWERKer</span><br>
+                    Ready to SPiNN digital magic with you
+                </h1>
+
+                <p class="subtitle">
+                    4 years of living and loving digital - just like you.<br>
+                    From Social Media to Search Ads, I speak your language.
+                </p>
+
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">36h</span>
+                        <span class="stat-label">Work Week Ready</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Team Spirit</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">∞</span>
+                        <span class="stat-label">Digital Love</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vsl-container">
+                <div class="vsl-header">
+                    <h3 style="margin: 0;">My Story in 3 Minutes</h3>
+                    <div class="live-indicator">
+                        <span class="live-dot"></span>
+                        <span>Personal Message</span>
+                    </div>
+                </div>
+                
+                <div class="video-placeholder" onclick="playVideo()">
+                    <div class="video-overlay"></div>
+                    <div class="play-button">
+                        <div class="play-icon"></div>
+                    </div>
+                    <div class="video-title">Why I Want to SPiNN With You</div>
+                    <div class="video-subtitle">A digital love story from Tuzla to Mozartplatz</div>
+                </div>
+
+                <p style="margin-top: 20px; text-align: center; color: #666;">
+                    🎬 Recorded specially for the SPiNNWERK team at Mozartplatz
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Journey Timeline -->
+    <section class="journey-section">
+        <h2 class="section-title">My Journey to Mozartplatz</h2>
+        <p class="section-subtitle">From pandemic pivot to becoming a SPiNNWERKer</p>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-emoji">🦠</div>
+                    <div class="timeline-date">March 2020</div>
+                    <div class="timeline-title">COVID Changed Everything</div>
+                    <div class="timeline-description">
+                        While the world paused, I pressed play on digital marketing. Started learning everything online - Google Ads at midnight, Facebook pixels at dawn, funnels for breakfast.
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-emoji">🛠️</div>
+                    <div class="timeline-date">2020-2022</div>
+                    <div class="timeline-title">Became the Swiss Army Knife</div>
+                    <div class="timeline-description">
+                        My company needed someone who could do it all. Design? Yes. Media buying? Absolutely. Workflows? Built them. Problems? Solved them. I became indispensable by being adaptable.
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-emoji">🏛️</div>
+                    <div class="timeline-date">2022</div>
+                    <div class="timeline-title">First Vienna Visit = Love</div>
+                    <div class="timeline-description">
+                        Stepped off the train at Hauptbahnhof and knew. The U-Bahn that actually works. Streets cleaner than my apartment. Coffee culture that rivals Bosnia. People who queue properly. I said: "I will live here."
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-emoji">🎯</div>
+                    <div class="timeline-date">Today</div>
+                    <div class="timeline-title">Ready to SPiNN</div>
+                    <div class="timeline-description">
+                        648km isn't far when you've found your digital playground. Your 36-hour work week, team spirit, and "leben und lieben Digital" philosophy - that's exactly what I've been searching for.
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Swiss Army Knife Skills -->
+    <section class="skills-section">
+        <h2 class="section-title">My Digital Spielwiese 🎮</h2>
+        <p class="section-subtitle">Every skill ready to SPiNN for your clients</p>
+
+        <div class="knife-container">
+            <div class="knife-badge">🕸️ Ready to SPiNN</div>
+            
+            <div class="skills-grid">
+                <div class="skill-blade">
+                    <div class="skill-icon">📱</div>
+                    <div class="skill-name">Social Media</div>
+                    <div class="skill-desc">Meta, TikTok, LinkedIn - creating stories that connect</div>
+                </div>
+
+                <div class="skill-blade">
+                    <div class="skill-icon">🔍</div>
+                    <div class="skill-name">Search Ads</div>
+                    <div class="skill-desc">Google Ads wizard - PPC, Shopping, Discovery</div>
+                </div>
+
+                <div class="skill-blade">
+                    <div class="skill-icon">🎨</div>
+                    <div class="skill-name">Creative Design</div>
+                    <div class="skill-desc">From concept to campaign, pixels to perfection</div>
+                </div>
+
+                <div class="skill-blade">
+                    <div class="skill-icon">🎯</div>
+                    <div class="skill-name">Digital Strategy</div>
+                    <div class="skill-desc">Connecting all dots in the digital playground</div>
+                </div>
+
+                <div class="skill-blade">
+                    <div class="skill-icon">⚡</div>
+                    <div class="skill-name">Web Development</div>
+                    <div class="skill-desc">Landing pages, funnels, and conversion magic</div>
+                </div>
+
+                <div class="skill-blade">
+                    <div class="skill-icon">📊</div>
+                    <div class="skill-name">Analytics & Insights</div>
+                    <div class="skill-desc">Data stories that drive decisions</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Love Letter to Vienna -->
+    <section class="love-letter">
+        <h2 class="section-title">Why SPiNNWERK? Why Now?</h2>
+        
+        <div class="letter-container">
+            <div class="letter-stamp">4. BEZIRK<br>2025</div>
+            
+            <div class="letter-content">
+                <p>Dear SPiNNWERK Team,</p>
+                
+                <p>When I read "Die digitale Welt ist unsere Spielwiese" on your website, I felt it in my soul. That's exactly how I see digital marketing - not as work, but as play. As creativity. As endless possibilities.</p>
+                
+                <p>Two years ago, I visited Vienna and fell in love. Not just with the U-Bahn that actually arrives on time, or the coffee culture that rivals Bosnia's, but with the energy of the 4th district, where creativity meets innovation.</p>
+                
+                <p>Your 36-hour work week tells me you understand something crucial: great ideas don't come from burnout, they come from balance. Your team events (Alpaka wandering? Genius!) show you value joy as much as performance.</p>
+                
+                <p>I don't speak German yet (aber ich lerne fleißig!). I need RWR visa support. But what I lack in paperwork, I make up for in passion for digital, hunger to grow, and the kind of enthusiasm that turns Monday mornings into opportunities.</p>
+                
+                <p>I want to SPiNN campaigns for ADEG while shopping there. Create social media magic for Vereinigte Bühnen Wien while watching their musicals. Build search ads for Cineplexx while planning my weekend movie.</p>
+                
+                <p>Most importantly, I want to be part of your Teamgeist - to contribute to the SPiNNWERK culture that makes you one of Austria's leading digital agencies.</p>
+                
+                <div class="letter-signature">
+                    Ready to SPiNN,<br>
+                    Your future SPiNNWERKer from Tuzla 🧂
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Me Section -->
+    <section class="why-section">
+        <h2 class="section-title" style="color: white; text-align: center;">What I Bring to Your Spielwiese</h2>
+
+        <div class="cards-grid">
+            <div class="why-card">
+                <div class="why-icon">🌍</div>
+                <div class="why-title">Fresh Perspective</div>
+                <div class="why-text">
+                    Balkan creativity + Austrian precision = Campaigns that surprise. I see opportunities others miss because I come from a different digital playground.
+                </div>
+            </div>
+
+            <div class="why-card">
+                <div class="why-icon">🎮</div>
+                <div class="why-title">Digital Native Energy</div>
+                <div class="why-text">
+                    I don't just work in digital - I live it, love it, breathe it. Just like SPiNNWERK. Your playground is already my natural habitat.
+                </div>
+            </div>
+
+            <div class="why-card">
+                <div class="why-icon">🚀</div>
+                <div class="why-title">36-Hour Week Champion</div>
+                <div class="why-text">
+                    Coming from Bosnia where we work hard, I know the value of working smart. Your philosophy of productivity through balance? Music to my ears.
+                </div>
+            </div>
+        </div>
+
+        <div class="visa-note">
+            <h3>📋 The Practical Stuff (Let's Get It Out of the Way)</h3>
+            <p>
+                <strong>Current Location:</strong> Tuzla, Bosnia and Herzegovina (7.2 hours away)<br>
+                <strong>Availability:</strong> Ready for my SPiNNWERK adventure immediately<br>
+                <strong>Visa Status:</strong> Will need RWR (Red-White-Red Card) sponsorship<br>
+                <strong>Language:</strong> English (fluent), Bosnian (native), German (learning with Duolingo daily!)<br>
+                <strong>Birthday:</strong> Ready to raid that mystery Geburtstagsbox! 🎁<br>
+                <strong>Team Spirit Level:</strong> Off the charts - can't wait for those Alpaka walks! 🦙
+            </p>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <h2 class="cta-title">Lass uns SPiNNen! 🕸️</h2>
+        <p class="cta-subtitle">
+            648km is nothing when you're heading toward your digital Spielwiese
+        </p>
+
+        <div class="cta-buttons">
+            <a href="mailto:hr@spinnwerk.at" class="btn btn-primary">
+                ☕ Let's Meet (Digital or at Mozartplatz)
+            </a>
+            <a href="#" onclick="downloadCV()" class="btn btn-secondary">
+                📄 Download My CV
+            </a>
+        </div>
+
+        <div class="contact-info">
+            <span>📧 your-email@example.com</span>
+            <span>📱 +387 XX XXX XXX</span>
+            <span>💼 <a href="#">LinkedIn</a></span>
+            <span>🎨 <a href="#">Portfolio</a></span>
+        </div>
+
+        <p style="margin-top: 40px; color: #999; font-size: 0.9rem;">
+            P.S. Can't wait for the SPiNNlunch and to contribute to your legendary Teamgeist! 🎉<br>
+            P.P.S. I'll bring Bosnian coffee to complement your My-Cups selection! ☕
+        </p>
+    </section>
+
+    <!-- Salt Crystal Easter Egg -->
+    <div class="salt-crystal" onclick="saltSurprise()" title="Click me!">
+        🧂
+    </div>
+
+    <script>
+        // Remove loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 2000);
+        });
+
+        // Animate distance counter
+        function animateDistance() {
+            const distances = ['648 km', '7.2 hours', '1 dream', '∞ motivation'];
+            let index = 0;
+            
+            setInterval(() => {
+                index = (index + 1) % distances.length;
+                document.querySelector('.distance-counter span').textContent = distances[index];
+            }, 3000);
+        }
+
+        animateDistance();
+
+        // Play video
+        function playVideo() {
+            alert("Your personalized video for SPiNNWERK would play here!\n\nTip: Record a genuine 2-3 minute video:\n- Start with 'Servus SPiNNWERK!' \n- Mention their 'digital playground' philosophy\n- Talk about their clients (ADEG, Cineplexx, etc.)\n- Show enthusiasm for their 36-hour work week & team culture\n- End with why you want to be a SPiNNWERKer!");
+        }
+
+        // Download CV
+        function downloadCV() {
+            alert("CV download starting!\n\nMake sure your CV matches this website's energy and includes:\n- Clear visa sponsorship needs\n- Relocation readiness\n- Your 'Swiss Army Knife' skills\n- Contact information");
+        }
+
+        // Salt crystal easter egg (Tuzla is famous for salt)
+        function saltSurprise() {
+            const messages = [
+                "🧂 Fun fact: Tuzla means 'salt' in Turkish! We're the only city in Europe with salt lakes in the center!",
+                "🧂 Yes, I'm from the Salt City! And I'm ready to add some flavor to Spinnwerk!",
+                "🧂 From Tuzla's salt to Vienna's Sachertorte - quite the upgrade, right?",
+                "🧂 You found the easter egg! This attention to detail is what I bring to campaigns too!",
+                "🧂 Salt preserves things. I'll preserve Spinnwerk's position as Vienna's best agency!"
+            ];
+            
+            alert(messages[Math.floor(Math.random() * messages.length)]);
+        }
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add some interactive hover effects
+        document.querySelectorAll('.skill-blade').forEach(blade => {
+            blade.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) rotate(5deg)';
+            });
+            
+            blade.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) rotate(0)';
+            });
+        });
+
+        // Parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+    </script>
+</body>
+</html>
