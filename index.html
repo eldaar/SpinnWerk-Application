@@ -63,26 +63,6 @@
             font-size: 1.1rem;
         }
 
-        @media (max-width: 768px) {
-            .distance-counter-wrapper {
-                position: relative;
-                top: 0;
-                right: 0;
-                text-align: center;
-                margin-bottom: 20px;
-                padding: 0 20px;
-            }
-            
-            .distance-counter {
-                font-size: 0.85rem;
-                padding: 10px 16px;
-            }
-            
-            .distance-counter span {
-                font-size: 1rem;
-            }
-        }
-
         /* Hero Section */
         .hero {
             min-height: 100vh;
@@ -94,10 +74,25 @@
             background: linear-gradient(135deg, var(--warm-gray) 0%, white 50%, var(--warm-gray) 100%);
         }
 
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+            align-items: center;
+        }
+
         @media (max-width: 768px) {
             .hero {
                 padding: 20px;
-                padding-top: 20px;
+                padding-top: 30px;
+                min-height: auto;
+            }
+            
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
             }
         }
 
@@ -112,6 +107,13 @@
 
         .hero-text {
             animation: slideInLeft 1s ease-out;
+        }
+
+        @media (max-width: 768px) {
+            .hero-text {
+                animation: none;
+                text-align: center;
+            }
         }
 
         @keyframes slideInLeft {
@@ -135,6 +137,18 @@
             margin-bottom: 20px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
             font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .location-badge {
+                margin: 0 auto 20px auto;
+                font-size: 0.9rem;
+                padding: 8px 16px;
+            }
+            
+            .hero-text {
+                text-align: center;
+            }
         }
 
         .location-badge .pin {
@@ -176,6 +190,12 @@
             }
             to {
                 background-size: 100% 40%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .highlight {
+                animation: none;
             }
         }
 
@@ -223,6 +243,13 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
             position: relative;
             animation: slideInRight 1s ease-out;
+        }
+
+        @media (max-width: 768px) {
+            .vsl-container {
+                padding: 20px;
+                border-radius: 15px;
+            }
         }
 
         @keyframes slideInRight {
@@ -399,6 +426,18 @@
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
         }
 
+        @media (max-width: 768px) {
+            .timeline-content {
+                width: 100%;
+                transition: none;
+            }
+            
+            .timeline-content:hover {
+                transform: none;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+        }
+
         .timeline-dot {
             position: absolute;
             left: 50%;
@@ -432,6 +471,40 @@
         .timeline-emoji {
             font-size: 2.5rem;
             margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .timeline {
+                padding: 0;
+            }
+            
+            .timeline::before {
+                display: none;
+            }
+            
+            .timeline-item {
+                display: block;
+                margin: 0 0 30px 0;
+            }
+            
+            .timeline-dot {
+                display: none;
+            }
+            
+            .timeline-content {
+                width: 100%;
+                transition: none;
+                animation: none;
+            }
+            
+            .timeline-content:hover {
+                transform: none;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+            
+            .timeline-emoji {
+                font-size: 2rem;
+            }
         }
 
         /* Skills Swiss Army Knife */
@@ -721,77 +794,106 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            /* Remove distance counter on mobile - it's distracting */
+            .distance-counter-wrapper {
+                display: none;
+            }
+
             .hero-container {
                 grid-template-columns: 1fr;
-                gap: 40px;
+                gap: 30px;
             }
 
             .hero-stats {
-                gap: 20px;
+                gap: 15px;
                 flex-wrap: wrap;
                 justify-content: center;
+                margin-top: 30px;
             }
 
             .stat {
                 flex: 1;
-                min-width: 90px;
+                min-width: 85px;
             }
 
             .stat-number {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
 
             .stat-label {
-                font-size: 0.8rem;
+                font-size: 0.75rem;
             }
 
+            /* Remove ALL timeline animations on mobile */
             .timeline::before {
-                left: 30px;
+                display: none;
             }
 
             .timeline-item {
                 flex-direction: column !important;
                 align-items: flex-start !important;
-                margin-left: 60px;
+                margin: 0 0 30px 0 !important;
+                opacity: 1 !important;
+                animation: none !important;
             }
 
             .timeline-content {
                 width: 100%;
+                opacity: 1 !important;
+                animation: none !important;
+                transition: none !important;
             }
 
             .timeline-dot {
-                left: 30px;
+                display: none;
             }
 
             h1 {
-                font-size: 2rem;
+                font-size: 1.6rem;
+                line-height: 1.3;
+                text-align: center;
+            }
+            
+            .subtitle {
+                text-align: center;
             }
             
             .section-title {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
 
             .vsl-container {
                 padding: 20px;
             }
+            
+            .vsl-header h3 {
+                font-size: 1.1rem;
+            }
+            
+            .live-indicator {
+                font-size: 0.8rem;
+            }
 
             .play-button {
-                width: 70px;
-                height: 70px;
+                width: 60px;
+                height: 60px;
             }
 
             .play-icon {
-                border-left: 22px solid var(--spinnwerk-red);
-                border-top: 14px solid transparent;
-                border-bottom: 14px solid transparent;
+                border-left: 20px solid var(--spinnwerk-red);
+                border-top: 12px solid transparent;
+                border-bottom: 12px solid transparent;
+                margin-left: 5px;
             }
 
             .video-title {
-                font-size: 1.1rem;
+                font-size: 1rem;
+                padding: 0 10px;
             }
 
             .video-subtitle {
-                font-size: 0.9rem;
+                font-size: 0.85rem;
+                padding: 0 10px;
             }
 
             .letter-stamp {
@@ -801,20 +903,29 @@
             }
 
             .letter-content {
-                font-size: 1.05rem;
+                font-size: 1rem;
             }
 
             .skills-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-                gap: 20px;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
             }
 
             .skill-blade {
-                padding: 20px 15px;
+                padding: 15px 10px;
+            }
+            
+            .skill-name {
+                font-size: 0.9rem;
+            }
+            
+            .skill-desc {
+                font-size: 0.8rem;
             }
 
             .skill-icon {
-                font-size: 2rem;
+                font-size: 1.8rem;
+                margin-bottom: 10px;
             }
 
             .cards-grid {
@@ -822,20 +933,26 @@
             }
 
             .cta-title {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
 
             .cta-subtitle {
-                font-size: 1.1rem;
-            }
-
-            .btn {
-                padding: 15px 30px;
                 font-size: 1rem;
             }
 
+            .btn {
+                padding: 14px 28px;
+                font-size: 0.95rem;
+            }
+
             .contact-info {
-                font-size: 0.9rem;
+                font-size: 0.85rem;
+            }
+            
+            .salt-crystal {
+                bottom: 20px;
+                right: 20px;
+                font-size: 2rem;
             }
         }
 
@@ -900,15 +1017,16 @@
 
     <!-- Map Background -->
     <div class="map-bg"></div>
+    
+    <!-- Distance Counter - Desktop Only -->
+    <div class="distance-counter-wrapper">
+        <div class="distance-counter">
+            📍 Tuzla → Vienna: <span>648 km</span>
+        </div>
+    </div>
 
     <!-- Hero Section with VSL -->
     <section class="hero">
-        <!-- Distance counter shows inline on mobile -->
-        <div class="distance-counter-wrapper">
-            <div class="distance-counter">
-                📍 Tuzla → Vienna: <span>648 km</span>
-            </div>
-        </div>
         
         <div class="hero-container">
             <div class="hero-text">
@@ -1188,14 +1306,21 @@
             }, 2000);
         });
 
-        // Animate distance counter
+        // Animate distance counter - REMOVED ON MOBILE
         function animateDistance() {
+            if (window.innerWidth <= 768) {
+                return; // Don't animate on mobile
+            }
+            
             const distances = ['648 km', '7.2 hours', '1 dream', '∞ motivation'];
             let index = 0;
             
             setInterval(() => {
                 index = (index + 1) % distances.length;
-                document.querySelector('.distance-counter span').textContent = distances[index];
+                const counterSpan = document.querySelector('.distance-counter span');
+                if (counterSpan) {
+                    counterSpan.textContent = distances[index];
+                }
             }, 3000);
         }
 
