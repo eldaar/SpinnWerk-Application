@@ -38,23 +38,49 @@
             z-index: 0;
         }
 
-        /* Distance counter */
-        .distance-counter {
+        /* Distance counter wrapper */
+        .distance-counter-wrapper {
             position: fixed;
             top: 20px;
             right: 20px;
+            z-index: 100;
+        }
+
+        /* Distance counter */
+        .distance-counter {
             background: white;
-            padding: 15px 25px;
+            padding: 12px 20px;
             border-radius: 50px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
             font-weight: bold;
-            z-index: 100;
             border: 2px solid var(--spinnwerk-red);
+            font-size: 0.9rem;
+            display: inline-block;
         }
 
         .distance-counter span {
             color: var(--spinnwerk-red);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .distance-counter-wrapper {
+                position: relative;
+                top: 0;
+                right: 0;
+                text-align: center;
+                margin-bottom: 20px;
+                padding: 0 20px;
+            }
+            
+            .distance-counter {
+                font-size: 0.85rem;
+                padding: 10px 16px;
+            }
+            
+            .distance-counter span {
+                font-size: 1rem;
+            }
         }
 
         /* Hero Section */
@@ -66,6 +92,13 @@
             z-index: 10;
             padding: 40px 20px;
             background: linear-gradient(135deg, var(--warm-gray) 0%, white 50%, var(--warm-gray) 100%);
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 20px;
+                padding-top: 20px;
+            }
         }
 
         .hero-container {
@@ -115,6 +148,13 @@
             color: var(--dark);
         }
 
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.75rem;
+                line-height: 1.3;
+            }
+        }
+
         .spinnwerk {
             color: var(--spinnwerk-red);
             font-weight: bold;
@@ -144,6 +184,12 @@
             color: #666;
             line-height: 1.6;
             margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .subtitle {
+                font-size: 1.1rem;
+            }
         }
 
         .hero-stats {
@@ -680,6 +726,25 @@
                 gap: 40px;
             }
 
+            .hero-stats {
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .stat {
+                flex: 1;
+                min-width: 90px;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .stat-label {
+                font-size: 0.8rem;
+            }
+
             .timeline::before {
                 left: 30px;
             }
@@ -700,6 +765,77 @@
 
             h1 {
                 font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .vsl-container {
+                padding: 20px;
+            }
+
+            .play-button {
+                width: 70px;
+                height: 70px;
+            }
+
+            .play-icon {
+                border-left: 22px solid var(--spinnwerk-red);
+                border-top: 14px solid transparent;
+                border-bottom: 14px solid transparent;
+            }
+
+            .video-title {
+                font-size: 1.1rem;
+            }
+
+            .video-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .letter-stamp {
+                width: 70px;
+                height: 70px;
+                font-size: 0.7rem;
+            }
+
+            .letter-content {
+                font-size: 1.05rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 20px;
+            }
+
+            .skill-blade {
+                padding: 20px 15px;
+            }
+
+            .skill-icon {
+                font-size: 2rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-title {
+                font-size: 2rem;
+            }
+
+            .cta-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .btn {
+                padding: 15px 30px;
+                font-size: 1rem;
+            }
+
+            .contact-info {
+                font-size: 0.9rem;
             }
         }
 
@@ -765,13 +901,15 @@
     <!-- Map Background -->
     <div class="map-bg"></div>
 
-    <!-- Distance Counter -->
-    <div class="distance-counter">
-        📍 Tuzla → Vienna: <span>648 km</span>
-    </div>
-
     <!-- Hero Section with VSL -->
     <section class="hero">
+        <!-- Distance counter shows inline on mobile -->
+        <div class="distance-counter-wrapper">
+            <div class="distance-counter">
+                📍 Tuzla → Vienna: <span>648 km</span>
+            </div>
+        </div>
+        
         <div class="hero-container">
             <div class="hero-text">
                 <div class="location-badge">
@@ -1076,11 +1214,11 @@
         // Salt crystal easter egg (Tuzla is famous for salt)
         function saltSurprise() {
             const messages = [
-                "🧂 Fun fact: Tuzla means 'salt' in Turkish! We're the only city in Europe with salt lakes in the center!",
-                "🧂 Yes, I'm from the Salt City! And I'm ready to add some flavor to Spinnwerk!",
-                "🧂 From Tuzla's salt to Vienna's Sachertorte - quite the upgrade, right?",
-                "🧂 You found the easter egg! This attention to detail is what I bring to campaigns too!",
-                "🧂 Salt preserves things. I'll preserve Spinnwerk's position as Vienna's best agency!"
+                "🧂 Fun fact: Tuzla's salt + SPiNNWERK's creativity = The perfect blend!",
+                "🧂 From Tuzla's salt lakes to SPiNNWERK's digital Spielwiese - quite the upgrade!",
+                "🧂 You found it! This attention to detail is what I'll bring to every campaign!",
+                "🧂 Salt preserves things. I'll help preserve SPiNNWERK's position as Austria's leading digital agency!",
+                "🧂 Ready to add some Balkan spice to your 36-hour work week!"
             ];
             
             alert(messages[Math.floor(Math.random() * messages.length)]);
